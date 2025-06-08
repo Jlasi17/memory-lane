@@ -72,7 +72,7 @@ Memory Lane is a comprehensive web application designed to help manage and monit
 
 ```bash
 git clone https://github.com/Jlasi17/memory-lane.git
-cd memoweb
+cd memorey-lane/memoweb
 ```
 
 2. Install frontend dependencies:
