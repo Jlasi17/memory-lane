@@ -816,12 +816,6 @@ const animateExpBar = (expGain) => {
                   <p className="profile-stage">Stage: {patientData?.alzheimer_stage || 'N/A'}</p>
                 </div>
                 <div className="profile-menu">
-                  <button className="menu-item">
-                    <FaUser /> Profile Settings
-                  </button>
-                  <button className="menu-item">
-                    <FaCog /> Preferences
-                  </button>
                   <button 
                     className="menu-item logout"
                     onClick={handleLogout}
@@ -972,7 +966,6 @@ const animateExpBar = (expGain) => {
                   <FaBrain />
                 </div>
                 <h3>Card Matching</h3>
-                <p>Test your memory by matching pairs of cards. Find all matching pairs to complete each level.</p>
                 <div className="game-details">
                   <span className="difficulty">Beginner Friendly</span>
                   <span className="duration">5-10 mins</span>
@@ -987,7 +980,6 @@ const animateExpBar = (expGain) => {
                   <FaGamepad />
                 </div>
                 <h3>Memo Tap</h3>
-                <p>Challenge your memory with sequence patterns. Remember and repeat increasingly complex sequences.</p>
                 <div className="game-details">
                   <span className="difficulty">All Levels</span>
                   <span className="duration">3-8 mins</span>
