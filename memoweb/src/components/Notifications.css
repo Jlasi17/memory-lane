@@ -1,0 +1,138 @@
+.notifications-list {
+  width: 100%;
+  max-height: 400px;
+  overflow-y: auto;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.notifications-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  border-bottom: 1px solid #eee;
+  position: sticky;
+  top: 0;
+  background: white;
+  z-index: 1;
+}
+
+.notifications-header h3 {
+  margin: 0;
+  color: #2c3e50;
+}
+
+.mark-read-btn {
+  background: none;
+  border: none;
+  color: #4CAF50;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+}
+
+.mark-read-btn:hover {
+  background: rgba(76, 175, 80, 0.1);
+}
+
+.mark-read-btn i {
+  font-size: 16px;
+}
+
+.notifications-items {
+  padding: 0;
+}
+
+.notification-item {
+  padding: 15px;
+  border-bottom: 1px solid #eee;
+  transition: background-color 0.3s ease;
+}
+
+.notification-item:last-child {
+  border-bottom: none;
+}
+
+.notification-item.unread {
+  background-color: #f8f9fa;
+  position: relative;
+}
+
+.notification-item.unread::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background-color: #4CAF50;
+}
+
+.notification-content h4 {
+  margin: 0 0 8px 0;
+  color: #2c3e50;
+}
+
+.notification-content p {
+  margin: 0 0 8px 0;
+  color: #666;
+  white-space: pre-line;
+}
+
+.notification-time {
+  font-size: 0.8em;
+  color: #999;
+}
+
+.notification-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.action-btn {
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
+  color: #2c3e50;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.action-btn:hover {
+  background: #f8f9fa;
+  border-color: #4CAF50;
+  color: #4CAF50;
+}
+
+.notifications-empty {
+  padding: 30px;
+  text-align: center;
+  color: #999;
+}
+
+.notifications-empty i {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.high-priority {
+  border-left: 4px solid #ff4444;
+}
+
+.medium-priority {
+  border-left: 4px solid #ffbb33;
+}
+
+.low-priority {
+  border-left: 4px solid #4CAF50;
+} 

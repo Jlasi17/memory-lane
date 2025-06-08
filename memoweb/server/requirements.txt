@@ -1,0 +1,22 @@
+fastapi
+uvicorn[standard]
+python-dotenv
+motor
+pymongo
+bcrypt
+python-jose[cryptography]
+PyJWT
+torch
+torchvision
+pillow
+python-multipart
+email-validator
+cloudinary
+pydantic>=2.0.0  # Updated to version 2.x
+streamlit
+transformers
+requests
+pytz
+Pillow
+langchain-groq
+langchain

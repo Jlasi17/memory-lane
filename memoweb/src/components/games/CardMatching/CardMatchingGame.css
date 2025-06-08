@@ -1,0 +1,523 @@
+/* CardMatchingGame.css */
+
+/* Base Styles */
+.cardmatch-container {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  color: #333;
+  background: linear-gradient(135deg, #f5f7fa 0%, #eeeff0 100%);
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* Header Styles */
+.cardmatch-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.cardmatch-back-button {
+  background: #4a6fa5;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.cardmatch-back-button:hover {
+  background: #3a5a8a;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Controls Section */
+.cardmatch-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 30px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.cardmatch-difficulty-selector {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cardmatch-difficulty-selector label {
+  font-weight: bold;
+  color: #4a6fa5;
+}
+
+.cardmatch-difficulty-selector select {
+  padding: 8px 15px;
+  border-radius: 8px;
+  border: 2px solid #4a6fa5;
+  background: white;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cardmatch-difficulty-selector select:hover {
+  border-color: #3a5a8a;
+  box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.2);
+}
+
+.cardmatch-stats {
+  display: flex;
+  gap: 25px;
+  flex-wrap: wrap;
+}
+
+.cardmatch-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 80px;
+}
+
+.cardmatch-stat-label {
+  font-size: 14px;
+  font-weight: bold;
+  color: #4a6fa5;
+  margin-bottom: 5px;
+}
+
+.cardmatch-stat-value {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  background: white;
+  padding: 5px 15px;
+  border-radius: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.cardmatch-restart-button {
+  background: #ff6b6b;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.cardmatch-restart-button:hover {
+  background: #ff5252;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.cardmatch-restart-button:disabled {
+  background: #cccccc;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Game Message */
+.cardmatch-message {
+  text-align: center;
+  margin: 20px 0;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #4a6fa5;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.5s ease;
+}
+
+/* Game Grid */
+.cardmatch-grid {
+  display: grid;
+  gap: 15px;
+  margin: 0 auto;
+  max-width: 800px;
+  padding: 20px;
+  justify-content: center;
+}
+
+.cardmatch-card {
+  aspect-ratio: 1;
+  perspective: 1000px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.cardmatch-card:hover {
+  transform: scale(1.05);
+}
+
+.cardmatch-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+.cardmatch-card.flipped .cardmatch-card-inner {
+  transform: rotateY(180deg);
+}
+
+.cardmatch-card-front, .cardmatch-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+}
+
+.cardmatch-card-front {
+  background: white;
+  color: #333;
+  font-size: 2.5rem;
+  transform: rotateY(180deg);
+}
+
+.cardmatch-card-back {
+  background: linear-gradient(135deg, #4a6fa5 0%, #3a5a8a 100%);
+}
+
+.cardmatch-card-back-pattern {
+  width: 80%;
+  height: 80%;
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.1) 10px,
+    rgba(255, 255, 255, 0.05) 10px,
+    rgba(255, 255, 255, 0.05) 20px
+  );
+  border-radius: 5px;
+}
+
+.cardmatch-card.matched .cardmatch-card-front {
+  background: linear-gradient(135deg, #a8e063 0%, #56ab2f 100%);
+  color: white;
+}
+
+/* Game Over Modal */
+.cardmatch-game-over-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+
+.cardmatch-modal-content {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  animation: slideUp 0.4s ease;
+}
+
+.cardmatch-modal-content h2 {
+  color: #4a6fa5;
+  margin-bottom: 20px;
+  font-size: 28px;
+}
+
+.result-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  margin: 25px 0;
+}
+
+.result-stat {
+  background: rgba(74, 111, 165, 0.1);
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.stat-label {
+  display: block;
+  font-size: 14px;
+  color: #4a6fa5;
+  margin-bottom: 5px;
+}
+
+.stat-value {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+/* Level Up Modal */
+.level-up-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1001;
+  animation: fadeIn 0.3s ease;
+}
+
+.level-up-content {
+  background: white;
+  padding: 40px;
+  border-radius: 15px;
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.level-up-content h2 {
+  color: #4a6fa5;
+  margin-bottom: 10px;
+  font-size: 24px;
+}
+
+.level-up-content p {
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.level-display {
+  font-size: 48px;
+  font-weight: bold;
+  color: #ff6b6b;
+  margin: 20px 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.close-button {
+  background: #4a6fa5;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.close-button:hover {
+  background: #3a5a8a;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Confetti Animation */
+.confetti {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.confetti-piece {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #f00;
+  opacity: 0;
+
+}
+
+.confetti-piece:nth-child(1) {
+  background: #f00;
+  left: 10%;
+  animation-delay: 0;
+}
+.confetti-piece:nth-child(2) {
+  background: #0f0;
+  left: 20%;
+  animation-delay: 0.5s;
+}
+.confetti-piece:nth-child(3) {
+  background: #00f;
+  left: 30%;
+  animation-delay: 1s;
+}
+.confetti-piece:nth-child(4) {
+  background: #ff0;
+  left: 40%;
+  animation-delay: 1.5s;
+}
+.confetti-piece:nth-child(5) {
+  background: #f0f;
+  left: 50%;
+  animation-delay: 2s;
+}
+.confetti-piece:nth-child(6) {
+  background: #0ff;
+  left: 60%;
+  animation-delay: 2.5s;
+}
+.confetti-piece:nth-child(7) {
+  background: #f00;
+  left: 70%;
+  animation-delay: 3s;
+}
+.confetti-piece:nth-child(8) {
+  background: #0f0;
+  left: 80%;
+  animation-delay: 3.5s;
+}
+.confetti-piece:nth-child(9) {
+  background: #00f;
+  left: 90%;
+  animation-delay: 4s;
+}
+.confetti-piece:nth-child(10) {
+  background: #ff0;
+  left: 100%;
+  animation-delay: 4.5s;
+}
+
+/* Loading Spinner */
+.game-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid rgba(74, 111, 165, 0.2);
+  border-radius: 50%;
+  border-top-color: #4a6fa5;
+
+  margin-bottom: 20px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+@keyframes confetti {
+  0% {
+    opacity: 0;
+    transform: translateY(0) rotate(0deg);
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(500px) rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .cardmatch-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .cardmatch-stats {
+    justify-content: space-around;
+  }
+  
+  .cardmatch-stat {
+    min-width: auto;
+  }
+  
+  .cardmatch-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+  
+  .modal-actions {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .cardmatch-card-front {
+    font-size: 1.8rem;
+  }
+  
+  .result-stats {
+    grid-template-columns: 1fr;
+  }
+}
