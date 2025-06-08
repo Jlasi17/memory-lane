@@ -1,5 +1,6 @@
 fastapi
 uvicorn[standard]
+python-multipart
 python-dotenv
 motor
 pymongo
@@ -18,5 +19,9 @@ transformers
 requests
 pytz
 Pillow
+bson
 langchain-groq
 langchain
+apscheduler
+aiofiles
+httpx

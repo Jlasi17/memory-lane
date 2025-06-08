@@ -71,14 +71,13 @@ Memory Lane is a comprehensive web application designed to help manage and monit
 1. Clone the repository:
 
 ```bash
-git clone [repository-url]
+git clone https://github.com/Jlasi17/memory-lane.git
 cd memoweb
 ```
 
 2. Install frontend dependencies:
 
 ```bash
-cd frontend
 npm install
 ```
 
@@ -123,7 +122,6 @@ uvicorn main:app --reload
 2. Start the frontend development server:
 
 ```bash
-cd frontend
 npm start
 ```
 
