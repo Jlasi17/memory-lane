@@ -53,19 +53,6 @@ const Notifications = ({ items = [], onAction = () => {}, onMarkAllRead }) => {
             <div className="notification-time">
               {formatTime(notification.timestamp)}
             </div>
-            {notification.actions && notification.actions.length > 0 && (
-              <div className="notification-actions">
-                {notification.actions.map((action, index) => (
-                  <button
-                    key={action}
-                    className={`action-button ${index === 0 ? 'primary' : 'secondary'}`}
-                    onClick={() => handleAction(notification.id, action)}
-                  >
-                    {action}
-                  </button>
-                ))}
-              </div>
-            )}
           </div>
         ))}
       </div>

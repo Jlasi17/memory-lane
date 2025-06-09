@@ -282,8 +282,7 @@ const DoctorHome = () => {
           message: `Patient: ${appointment.patient_name}\nTime: ${appointment.time}\nDate: ${appointment.date}\nStarting in: ${minutesUntil} minutes\n\nPlease prepare for the consultation.`,
           timestamp: new Date().toISOString(),
           priority: 'high',
-          read: false,
-          actions: ['View Details', 'Reschedule']
+          read: false
         };
       });
 
@@ -299,8 +298,7 @@ const DoctorHome = () => {
         message: `Medication: ${med.name}\nPatient: ${med.patient_name}\nExpires: ${new Date(med.expires_at).toLocaleDateString()}\n\nPlease review and renew if needed.`,
         timestamp: new Date().toISOString(),
         priority: 'medium',
-        read: false,
-        actions: ['Review', 'Renew']
+        read: false
       }));
 
       // Combine all notifications and sort by priority and timestamp
