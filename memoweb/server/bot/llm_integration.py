@@ -6,7 +6,7 @@ load_dotenv()
 
 class LlamaIntegration:
     def __init__(self):
-        self.groq_api_key = os.getenv("GROQ_API_KEY1")
+        self.groq_api_key = os.getenv("GROQ_API_KEY")
         self.base_url = "https://api.groq.com/openai/v1/chat/completions"
     
     def generate_response(self, prompt, max_tokens=512, temperature=0.7):

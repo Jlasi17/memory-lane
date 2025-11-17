@@ -3,8 +3,6 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
-from apscheduler.triggers.date import DateTrigger
-from apscheduler.triggers.interval import IntervalTrigger
 from pathlib import Path
 import torch
 from pydantic import BaseModel
@@ -35,35 +33,25 @@ import cloudinary
 import cloudinary.uploader
 import cloudinary.api
 from bot.bot_logic import chatbot_instance
-from asyncio import TimeoutError
 import asyncio
 from groq import Groq
 from random import choice
-
-
 # Load environment variables
 load_dotenv()
-
-# Email configuration (add to your .env file)
 SMTP_SERVER = os.getenv("SMTP_SERVER", "smtp.gmail.com")
 SMTP_PORT = int(os.getenv("SMTP_PORT", 587))
 EMAIL_ADDRESS = os.getenv("EMAIL_ADDRESS")
 EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
-
 # Initialize FastAPI
 app = FastAPI()
 router = APIRouter()
 scheduler = AsyncIOScheduler()
-
-
-
 cloudinary.config(
   cloud_name = os.getenv("CLOUDINARY_CLOUD_NAME"),
   api_key = os.getenv("CLOUDINARY_API_KEY"),
   api_secret = os.getenv("CLOUDINARY_API_SECRET"),
   secure=True
 )
-
 
 # CORS Configuration
 app.add_middleware(
@@ -82,18 +70,12 @@ client = AsyncIOMotorClient(
 )
 db = client.memorylane
 scores_collection = db.scores
-
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
-
-# Security Configuration
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
-
 stage_names = ['MildDemented', 'ModerateDemented', 'NonDemented', 'VeryMildDemented']
-
-# Preprocessing transform
 transform = transforms.Compose([
     transforms.Resize((224, 224)),
     transforms.ToTensor(),
@@ -111,7 +93,6 @@ def load_model(model_path="../models/resnet18_alzheimer_model.pth"):
     return model
 
 model = load_model()
-
 def convert_mongo_doc(doc):
     """Recursively convert MongoDB documents to JSON-serializable format"""
     if doc is None:
@@ -130,7 +111,6 @@ def convert_mongo_doc(doc):
     if hasattr(doc, '__dict__'):
         return convert_mongo_doc(doc.__dict__)
     return str(doc)  # Fallback for other types
-
 
 # Pydantic Models
 class User(BaseModel):
@@ -205,9 +185,6 @@ class MRIScanBase(BaseModel):
     uploaded_by: str
     uploaded_at: datetime
 
-class MRIScanCreate(MRIScanBase):
-    pass
-
 class MRIScanInDB(MRIScanBase):
     id: str
 
@@ -216,7 +193,6 @@ class MRIScanInDB(MRIScanBase):
             datetime: lambda v: v.isoformat()
         }
 
-# Appointments Models
 class AppointmentCreate(BaseModel):
     patient_id: str
     date: str  # YYYY-MM-DD
@@ -237,15 +213,12 @@ class AppointmentResponse(BaseModel):
     class Config:
         validate_by_name = True
 
-
-# Medications Models
 class MedicationCreate(BaseModel):
     patient_id: str
     name: str
     time: List[str]
     duration: int
     notes: str = None
-
 
 class MedicationResponse(BaseModel):
     id: str
@@ -277,7 +250,6 @@ class ScoreData(BaseModel):
     player_name: str
     score: int
     rounds_completed: int
-
 
 # Helper Functions
 def create_access_token(data: dict, expires_delta: timedelta = None):
@@ -479,9 +451,6 @@ async def check_medication_reminders():
     except Exception as e:
         print(f"Error in medication reminders: {str(e)}")
 
-
-
-# Routes
 @app.get("/")
 async def root():
     return {
@@ -765,7 +734,6 @@ async def get_patient_stats(current_user: dict = Depends(get_current_user)):
         }
     }
 
-
 @app.get("/patients", response_model=List[Patient])
 async def get_patients(current_user: dict = Depends(get_current_user)):
     if current_user["role"] == "doctor":
@@ -837,7 +805,6 @@ async def create_indexes():
         next_run_time=datetime.now() + timedelta(seconds=10)
     )
 
-
 @app.get("/api/notifications")
 async def get_notifications(current_user: dict = Depends(get_current_user)):
     try:
@@ -897,12 +864,10 @@ async def get_user_patients(current_user: dict = Depends(get_current_user)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-
 @app.get("/api/user")
 async def get_user(current_user: dict = Depends(get_current_user)):
     return {"username": current_user["username"]}
     
-
 # Update your upload endpoint
 @app.post("/api/upload_image")
 async def upload_image(
@@ -1002,7 +967,6 @@ async def upload_image(
             "status_code": 500
         }
 
-
 @app.get("/api/images/{patient_id}")
 async def get_patient_images(
     patient_id: str,
@@ -1036,8 +1000,6 @@ async def get_patient_images(
     
     return {"images": images}
 
-
-
 @app.delete("/api/images/{image_id}")
 async def delete_image(
     image_id: str,
@@ -1070,7 +1032,6 @@ async def delete_image(
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-
 
 @app.post("/api/upload_mri_scan")
 async def upload_mri_scan(
@@ -1332,7 +1293,6 @@ async def get_appointments(
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-
 @app.post("/api/appointments", response_model=AppointmentResponse)
 async def create_appointment(
     appointment: AppointmentCreate,
@@ -1442,7 +1402,6 @@ async def send_day_before_appointment_email(email: str, patient_name: str, descr
             
     except Exception as e:
         print(f"Failed to send day-before email: {str(e)}")
-
 
 @app.delete("/api/appointments/{appointment_id}")
 async def delete_appointment(
@@ -1631,7 +1590,6 @@ async def get_medications(
         print("Unhandled error in /api/medications:", e)
         raise HTTPException(status_code=500, detail=str(e))
     
-
 @app.post("/api/medications", response_model=MedicationResponse)
 async def create_medication(
     medication: MedicationCreate,
@@ -1703,7 +1661,6 @@ async def create_medication(
             detail=f"Failed to create medication: {str(e)}"
         )
 
-
 @app.delete("/api/medications/{medication_id}")
 async def delete_medication(
     medication_id: str,
@@ -1743,7 +1700,6 @@ async def delete_medication(
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-
 # Background task to clean expired medications
 async def clean_expired_medications():
     """Should be called periodically (e.g., daily)"""
@@ -1767,7 +1723,6 @@ async def clean_expired_medications():
         
     except Exception as e:
         print(f"Error cleaning expired medications: {str(e)}")
-
 
 @app.get("/generate-sequence")
 async def generate_sequence(round_number: int):
@@ -1793,7 +1748,6 @@ async def generate_sequence(round_number: int):
         "num_colors": num_colors
     }
 
-
 class GameUser(BaseModel):
     patient_id: str
     name: str
@@ -1806,7 +1760,6 @@ class GameUser(BaseModel):
     current_streak: int = 0  # Current consecutive days
     longest_streak: int = 0  # All-time record
     last_login_date: Optional[str] = None  # YYYY-MM-DD format
-
 
 # Add these endpoints
 @app.post("/api/game_user/initialize")
@@ -1935,7 +1888,6 @@ class PatientStatsResponse(BaseModel):
             ObjectId: str,
             datetime: lambda v: v.isoformat()
         }
-
 
 @app.post("/api/save-score")
 async def save_score(score_data: dict, current_user: dict = Depends(get_current_user)):
@@ -2250,7 +2202,6 @@ async def get_patient_high_scores(game_name: str = None, current_user: dict = De
             content={"scores": []}
         )
 
-
 @app.get("/api/memory-high-scores")
 async def get_memory_high_scores(
     difficulty: Optional[str] = None,
@@ -2318,7 +2269,6 @@ async def chat_with_bot(request: ChatRequest):
 
 # Include the router in your FastAPI app
 app.include_router(router)
-
 @app.post("/api/notifications/{notification_id}/remind-later")
 async def remind_later_notification(
     notification_id: str,
@@ -2423,7 +2373,6 @@ async def get_unread_notification_count(current_user: dict = Depends(get_current
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-
 @app.post("/api/daily-login")
 async def record_daily_login(current_user: dict = Depends(get_current_user)):
     try:
@@ -2508,7 +2457,6 @@ async def record_daily_login(current_user: dict = Depends(get_current_user)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-
 @app.post("/api/update_patient_stage")
 async def update_patient_stage(
     data: dict,
@@ -2592,7 +2540,6 @@ async def update_patient_stage(
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-
 
 async def generate_report_for_patient(patient_id: str):
     """Helper function to generate report for a specific patient"""
@@ -3605,7 +3552,7 @@ async def generate_stories(patient_id: str, current_user: dict = Depends(get_cur
             context_str = " ".join(context)
             
             response = groq_client.chat.completions.create(
-                model="llama3-70b-8192",
+                model="llama-3.1-8b-instant",
                 messages=[
                     {
                         "role": "system", 
